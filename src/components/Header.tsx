@@ -18,6 +18,11 @@ const Header = () => {
     { name: "Admin Dashboard", href: "/admin" },
   ];
 
+  const navButtons = [
+    { name: "Login", href: "/login" },
+    { name: "Register", href: "/register" },
+  ];
+
   return (
     <div>
       <nav className="block w-full max-w-screen px-8 py-4 mx-auto bg-[#e3e1e1] border-b-[4px] border-solid border-[#909090] bg-opacity-90 sticky top-3 shadow lg:px-8 backdrop-blur-lg backdrop-saturate-150 z-[9999]">
@@ -82,25 +87,26 @@ const Header = () => {
                   key={index}
                   className="flex items-center p-1 text-lg gap-x-2 text-slate-600 hover:text-blue-500"
                 >
-                  <Link href={item.href} className="flex items-center">
+                  <Link
+                    href={item.href}
+                    className="flex items-center"
+                    onClick={toggleMobileMenu}
+                  >
                     {item.name}
                   </Link>
                 </li>
               ))}
-              <li className="mt-4 flex flex-col gap-2">
-                <Link
-                  href="/login"
-                  className="bg-blue-500 hover:bg-[#00008B] text-white px-8 py-2 rounded-md"
-                >
-                  Login
-                </Link>
-                <Link
-                  href="/register"
-                  className="bg-blue-500 hover:bg-[#00008B] text-white px-8 py-2 rounded-md"
-                >
-                  Register
-                </Link>
-              </li>
+              {navButtons.map((item, index) => (
+                <li key={index} className="flex flex-col">
+                  <Link
+                    onClick={toggleMobileMenu}
+                    href={item.href}
+                    className="bg-blue-500 hover:bg-[#00008B] text-white px-8 py-2 rounded-md"
+                  >
+                    {item.name}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
@@ -117,20 +123,16 @@ const Header = () => {
                   </Link>
                 </li>
               ))}
-              <li className="flex items-center gap-2">
-                <Link
-                  href="/login"
-                  className="bg-blue-500 hover:bg-[#00008B] text-white px-8 py-2 rounded-md"
-                >
-                  Login
-                </Link>
-                <Link
-                  href="/register"
-                  className="bg-blue-500 hover:bg-[#00008B] text-white px-8 py-2 rounded-md"
-                >
-                  Register
-                </Link>
-              </li>
+              {navButtons.map((item, index) => (
+                <li key={index} className="flex items-center">
+                  <Link
+                    href={item.href}
+                    className="bg-blue-500 hover:bg-[#00008B] text-white px-5 py-2 rounded-md"
+                  >
+                    {item.name}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
         </div>
