@@ -1,4 +1,5 @@
 "use client";
+import { navButtons, navItems } from "@/utils/constants";
 import Link from "next/link";
 import { useState } from "react";
 import { AiOutlineMenu } from "react-icons/ai";
@@ -9,19 +10,6 @@ const Header = () => {
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
-
-  // Navigation items array
-  const navItems = [
-    { name: "Home", href: "/" },
-    { name: "About", href: "/about" },
-    { name: "Articles", href: "/articles" },
-    { name: "Admin Dashboard", href: "/admin" },
-  ];
-
-  const navButtons = [
-    { name: "Login", href: "/login" },
-    { name: "Register", href: "/register" },
-  ];
 
   return (
     <div>
@@ -35,7 +23,6 @@ const Header = () => {
             <GrTechnology />
             Hosting
           </Link>
-
           <div className="lg:hidden">
             <div
               className="cursor-pointer relative ml-auto h-6 max-h-[40px] w-6 max-w-[40px] select-none rounded-lg text-center align-middle text-3xl font-medium uppercase text-inherit transition-all hover:bg-transparent focus:bg-transparent active:bg-transparent disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
@@ -45,6 +32,32 @@ const Header = () => {
                 <AiOutlineMenu />
               </span>
             </div>
+          </div>
+
+          {/* Desktop Menu */}
+          <div className="hidden lg:block items-center justify-center">
+            <ul className="flex flex-col gap-2 mt-2 mb-4 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
+              {navItems.map((item, index) => (
+                <li
+                  key={index}
+                  className="flex items-center p-1 text-lg gap-x-2 text-slate-600 hover:text-blue-500"
+                >
+                  <Link href={item.href} className="flex items-center">
+                    {item.name}
+                  </Link>
+                </li>
+              ))}
+              {navButtons.map((item, index) => (
+                <li key={index} className="flex items-center">
+                  <Link
+                    href={item.href}
+                    className="bg-blue-500 hover:bg-[#00008B] text-white px-5 py-2 rounded-md"
+                  >
+                    {item.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
 
           {/* Mobile Menu */}
@@ -102,32 +115,6 @@ const Header = () => {
                     onClick={toggleMobileMenu}
                     href={item.href}
                     className="bg-blue-500 hover:bg-[#00008B] text-white px-8 py-2 rounded-md"
-                  >
-                    {item.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Desktop Menu */}
-          <div className="hidden lg:block items-center justify-center">
-            <ul className="flex flex-col gap-2 mt-2 mb-4 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
-              {navItems.map((item, index) => (
-                <li
-                  key={index}
-                  className="flex items-center p-1 text-lg gap-x-2 text-slate-600 hover:text-blue-500"
-                >
-                  <Link href={item.href} className="flex items-center">
-                    {item.name}
-                  </Link>
-                </li>
-              ))}
-              {navButtons.map((item, index) => (
-                <li key={index} className="flex items-center">
-                  <Link
-                    href={item.href}
-                    className="bg-blue-500 hover:bg-[#00008B] text-white px-5 py-2 rounded-md"
                   >
                     {item.name}
                   </Link>
