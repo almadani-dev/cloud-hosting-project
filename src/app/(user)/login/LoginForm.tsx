@@ -2,7 +2,10 @@
 
 import { useState } from "react";
 import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
+
 const LoginForm = () => {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const formSubmitHandler = (e: React.FormEvent) => {
@@ -11,6 +14,7 @@ const LoginForm = () => {
       return toast.error("Please fill all the fields");
     }
     console.log({ email, password });
+    router.push("/");
   };
   return (
     <div>

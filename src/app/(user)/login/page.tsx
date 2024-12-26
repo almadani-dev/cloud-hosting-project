@@ -1,5 +1,4 @@
 import LoginForm from "./LoginForm";
-
 const LoginPage = () => {
   return (
     <section className="fix-height container m-auto px-7 flex items-center justify-center">

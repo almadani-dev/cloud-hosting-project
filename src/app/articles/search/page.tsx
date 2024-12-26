@@ -1,12 +1,12 @@
-import React from "react";
-
-const SearchArticlePage = () => {
+interface SearchArticlePageProps {
+  searchParams: Promise<{ searchText: string }>;
+}
+const SearchArticlePage = async ({ searchParams }: SearchArticlePageProps) => {
+  const text = (await searchParams).searchText;
   return (
-    <div>
-      <h1>Search Articles Page</h1>
-      <input type="text" placeholder="Search..." />
-      <button>Search</button>
-    </div>
+    <section className="fix-height container m-auto px-5">
+      <h1 className="text-2xl font-bold">Search Text is {text}</h1>
+    </section>
   );
 };
 
