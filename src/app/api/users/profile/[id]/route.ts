@@ -3,6 +3,7 @@ import prisma from "@/utils/db";
 import { verifyToken } from "@/utils/verifyToken";
 import { UpdateUserDto } from "@/utils/dtos";
 import bcrypt from "bcryptjs";
+import { updateUserSchema } from "@/utils/validationSchemas";
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -75,13 +76,15 @@ export async function PUT(req: NextRequest, { params }: Props) {
 
     const body = (await req.json()) as UpdateUserDto;
 
+    const validation = updateUserSchema.safeParse(body);
+    if (!validation.success) {
+      return NextResponse.json(
+        { message: validation.error.errors[0].message },
+        { status: 400 }
+      );
+    }
+
     if (body.password) {
-      if (body.password.length < 6) {
-        return NextResponse.json(
-          { message: "password should be minium 6 characters" },
-          { status: 400 }
-        );
-      }
       const salt = await bcrypt.genSalt(10);
       body.password = await bcrypt.hash(body.password, salt);
     }

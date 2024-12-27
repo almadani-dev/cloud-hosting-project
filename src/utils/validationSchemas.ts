@@ -1,6 +1,5 @@
 import { z } from "zod";
 
-// Create Article Schema
 export const createArticleSchema = z.object({
   title: z
     .string({
@@ -29,8 +28,10 @@ export const loginSchema = z.object({
   password: z.string().min(8),
 });
 
-export const updatePasswordSchema = z.object({
-  password: z.string().min(8),
+export const updateUserSchema = z.object({
+  username: z.string().min(2).max(100).optional(),
+  email: z.string().min(3).max(200).email().optional(),
+  password: z.string().min(8).optional(),
 });
 
 export const createCommentSchema = z.object({

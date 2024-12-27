@@ -16,7 +16,25 @@ interface Props {
 export async function GET(req: NextRequest, { params }: Props) {
   try {
     const id = parseInt((await params).id);
-    const article = await prisma.article.findUnique({ where: { id: id } });
+    const article = await prisma.article.findUnique({
+      where: { id: id },
+      include: {
+        comments: {
+          include: {
+            user: {
+              select: {
+                id: true,
+                username: true,
+                email: true,
+              },
+            },
+          },
+          orderBy: {
+            id: "desc",
+          },
+        },
+      },
+    });
 
     if (!article) {
       return NextResponse.json(
@@ -74,6 +92,13 @@ export async function PUT(req: NextRequest, { params }: Props) {
     );
   }
 }
+
+/**
+ * @method DELETE
+ * @route ~/api/articles/:id
+ * @desc DELETE Article
+ * @access private (only admin can update it )
+ */
 
 export async function DELETE(req: NextRequest, { params }: Props) {
   try {

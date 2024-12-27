@@ -40,8 +40,8 @@ model Comment {
   updatedAt DateTime @updatedAt
   // One-to-Many relation between the `Articles` and `Comment` models
   articleId Int
-  article   Article  @relation(fields: [articleId], references: [id])
+  article   Article  @relation(fields: [articleId], references: [id] ,onDelete: Cascade)
   // One-to-Many relation between the `Users` and `Comment` models
   userId    Int
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id],onDelete: Cascade)
 }
