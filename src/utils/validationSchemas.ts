@@ -18,13 +18,22 @@ export const createArticleSchema = z.object({
     .min(2, { message: "The description must be more than two characters" }),
 });
 
-export const registerSchmea = z.object({
+export const registerSchema = z.object({
   username: z.string().min(2).max(100),
   email: z.string().min(3).max(200).email(),
   password: z.string().min(8),
 });
 
-export const loginSchmea = z.object({
+export const loginSchema = z.object({
   email: z.string().min(3).max(200).email(),
   password: z.string().min(8),
+});
+
+export const updatePasswordSchema = z.object({
+  password: z.string().min(8),
+});
+
+export const createCommentSchema = z.object({
+  text: z.string().min(3).max(200),
+  articleId: z.number(),
 });

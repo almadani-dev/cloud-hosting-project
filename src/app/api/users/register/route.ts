@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/utils/db";
 import { RegisterDto } from "@/utils/dtos";
-import { registerSchmea } from "@/utils/validationSchemas";
+import { registerSchema } from "@/utils/validationSchemas";
 import bcrypt from "bcryptjs";
 import { JWTPayload } from "@/utils/types";
-import { generateJWT } from "@/utils/generateToken";
+import { setCookie } from "@/utils/generateToken";
 
 /**
  * @method POST
@@ -15,9 +15,9 @@ import { generateJWT } from "@/utils/generateToken";
 
 export async function POST(req: NextRequest) {
   try {
-    const body: RegisterDto = await req.json();
+    const body = (await req.json()) as RegisterDto;
 
-    const validation = registerSchmea.safeParse(body);
+    const validation = registerSchema.safeParse(body);
 
     if (!validation.success) {
       return NextResponse.json(
@@ -25,7 +25,6 @@ export async function POST(req: NextRequest) {
         { status: 400 }
       );
     }
-
 
     const user = await prisma.user.findUnique({ where: { email: body.email } });
 
@@ -59,9 +58,14 @@ export async function POST(req: NextRequest) {
       username: newUser.username,
       isAdmin: newUser.isAdmin,
     };
-    const token = generateJWT(jwtPayload);
 
-    return NextResponse.json({ newUser, token }, { status: 201 });
+    // Set Cookie
+    const cookie = setCookie(jwtPayload);
+
+    return NextResponse.json(
+      { ...newUser, message: "User Created Successfully" },
+      { status: 201, headers: { "Set-Cookie": cookie } }
+    );
   } catch (error) {
     return NextResponse.json(
       { message: "Internal Server Error: " + error },

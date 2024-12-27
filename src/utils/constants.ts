@@ -9,3 +9,5 @@ export const navButtons = [
   { name: "Login", href: "/login" },
   { name: "Register", href: "/register" },
 ];
+
+export const ItemPerPage = 6;

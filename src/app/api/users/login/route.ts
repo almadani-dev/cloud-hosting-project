@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/utils/db";
 import { LoginDto } from "@/utils/dtos";
-import { loginSchmea } from "@/utils/validationSchemas";
+import { loginSchema } from "@/utils/validationSchemas";
 import bcrypt from "bcryptjs";
-import { generateJWT } from "@/utils/generateToken";
+import { setCookie } from "@/utils/generateToken";
 import { JWTPayload } from "@/utils/types";
+
 /**
  * @method POST
  * @route ~/api/users/login
@@ -14,9 +15,9 @@ import { JWTPayload } from "@/utils/types";
 
 export async function POST(req: NextRequest) {
   try {
-    const body: LoginDto = await req.json();
+    const body = (await req.json()) as LoginDto;
 
-    const validation = loginSchmea.safeParse(body);
+    const validation = loginSchema.safeParse(body);
 
     if (!validation.success) {
       return NextResponse.json(
@@ -50,12 +51,17 @@ export async function POST(req: NextRequest) {
       username: user.username,
       isAdmin: user.isAdmin,
     };
-    const token = generateJWT(jwtPayload);
+    // Set Cookie
 
-
+    const cookie = setCookie(jwtPayload);
     return NextResponse.json(
-      { message: "Login Successfully", token },
-      { status: 200 }
+      { message: "Login Successfully" },
+      {
+        status: 200,
+        headers: {
+          "Set-Cookie": cookie,
+        },
+      }
     );
   } catch (error) {
     return NextResponse.json(
