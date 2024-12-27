@@ -3,18 +3,29 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import axios from "axios";
+
+const DOMAIN = "http://localhost:3000";
 
 const LoginForm = () => {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const formSubmitHandler = (e: React.FormEvent) => {
+
+  const formSubmitHandler = async (e: React.FormEvent) => {
     e.preventDefault();
     if (email === "" || password === "") {
       return toast.error("Please fill all the fields");
     }
-    console.log({ email, password });
-    router.push("/");
+
+    try {
+      await axios.post(`${DOMAIN}/api/users/login`, { email, password });
+      router.replace("/");
+      router.refresh();
+    } catch (error: any) {
+      toast.error(error?.response.data.message);
+      console.log(error);
+    }
   };
   return (
     <div>

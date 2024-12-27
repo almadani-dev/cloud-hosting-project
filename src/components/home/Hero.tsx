@@ -24,7 +24,7 @@ const Hero = () => {
         </div>
       </div>
       <div>
-        <Image src={CloudImage} alt="cloud" width={500} height={500} />
+        <Image src={CloudImage} alt="cloud" width={500} height={500} priority />
       </div>
     </div>
   );

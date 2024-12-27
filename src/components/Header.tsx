@@ -1,16 +1,34 @@
 "use client";
 import { navButtons, navItems } from "@/utils/constants";
+import axios from "axios";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AiOutlineMenu } from "react-icons/ai";
 import { GrTechnology } from "react-icons/gr";
+
+const DOMAIN = "http://localhost:3000";
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
+  const [username, setUsername] = useState(""); // For storing the response data
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const re = await axios.get(`${DOMAIN}/api/token`);
+        setUsername(re.data.data.username);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  console.log(username);
   return (
     <div>
       <nav className="block w-full max-w-screen px-8 py-4 mx-auto bg-[#e3e1e1] border-b-[4px] border-solid border-[#909090] bg-opacity-90 sticky top-3 shadow lg:px-8 backdrop-blur-lg backdrop-saturate-150 z-[9999]">
@@ -47,16 +65,27 @@ const Header = () => {
                   </Link>
                 </li>
               ))}
-              {navButtons.map((item, index) => (
-                <li key={index} className="flex items-center">
-                  <Link
-                    href={item.href}
-                    className="bg-blue-500 hover:bg-[#00008B] text-white px-5 py-2 rounded-md"
-                  >
-                    {item.name}
-                  </Link>
-                </li>
-              ))}
+
+              {username !== undefined ? (
+                <div>
+                  <strong className="text-blue-800 capitalize">
+                    {username}
+                  </strong>
+                </div>
+              ) : (
+                <>
+                  {navButtons.map((item, index) => (
+                    <li key={index} className="flex items-center">
+                      <Link
+                        href={item.href}
+                        className="bg-blue-500 hover:bg-[#00008B] text-white px-5 py-2 rounded-md"
+                      >
+                        {item.name}
+                      </Link>
+                    </li>
+                  ))}
+                </>
+              )}
             </ul>
           </div>
 

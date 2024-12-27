@@ -1,4 +1,4 @@
-import { Article } from "@/utils/types";
+import { Article } from "@prisma/client";
 import Link from "next/link";
 
 interface ArticleItemProps {
