@@ -10,7 +10,6 @@ const AddArticleForm = () => {
     if (title === "" || description === "") {
       return toast.error("Please fill all the fields");
     }
-    console.log({ title, description });
   };
   return (
     <div>

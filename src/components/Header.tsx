@@ -10,7 +10,6 @@ const Header = () => {
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
-
   return (
     <div>
       <nav className="block w-full max-w-screen px-8 py-4 mx-auto bg-[#e3e1e1] border-b-[4px] border-solid border-[#909090] bg-opacity-90 sticky top-3 shadow lg:px-8 backdrop-blur-lg backdrop-saturate-150 z-[9999]">
@@ -23,6 +22,9 @@ const Header = () => {
             <GrTechnology />
             Hosting
           </Link>
+        
+        
+        
           <div className="lg:hidden">
             <div
               className="cursor-pointer relative ml-auto h-6 max-h-[40px] w-6 max-w-[40px] select-none rounded-lg text-center align-middle text-3xl font-medium uppercase text-inherit transition-all hover:bg-transparent focus:bg-transparent active:bg-transparent disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
@@ -47,6 +49,7 @@ const Header = () => {
                   </Link>
                 </li>
               ))}
+
               {navButtons.map((item, index) => (
                 <li key={index} className="flex items-center">
                   <Link

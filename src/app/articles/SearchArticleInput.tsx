@@ -9,7 +9,6 @@ const SearchArticleInput = () => {
   const formSubmitHandler = (e: React.FormEvent) => {
     e.preventDefault();
 
-    console.log({ searchText });
     router.push(`/articles/search?searchText=${searchText}`);
   };
   return (
