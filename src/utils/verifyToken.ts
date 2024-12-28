@@ -24,11 +24,9 @@ export function verifyToken(req: NextRequest): JWTPayload | null {
 // For Pages
 export function verifyTokenPages(token: string): JWTPayload | null {
   try {
-    console.log("The token is ", token);
     const privateKey = process.env.JWT_SECRET as string;
 
     const userPayload = jwt.verify(token, privateKey) as JWTPayload;
-    console.log(userPayload);
     if (!userPayload) return null;
 
     return userPayload;

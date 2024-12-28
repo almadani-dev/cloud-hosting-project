@@ -7,12 +7,12 @@ import { getArticles, getArticlesCount } from "@/apiCalls/articleApiCall";
 import { ItemPerPage } from "@/utils/constants";
 
 interface ArticlesPageProps {
-  searchParams: { page: string };
+  searchParams: Promise<{ page: string }>;
 }
 
 const ArticlesPage = async ({ searchParams }: ArticlesPageProps) => {
   await new Promise((resolve) => setTimeout(resolve, 400));
-  const { page } = searchParams;
+  const { page } = await searchParams;
   const count: number = await getArticlesCount();
   const pages = Math.ceil(count / ItemPerPage);
   const articles: Article[] = await getArticles(page);

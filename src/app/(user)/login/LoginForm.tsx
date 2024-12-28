@@ -4,13 +4,14 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-
-const DOMAIN = "http://localhost:3000";
+import { DOMAIN } from "@/utils/constants";
+import ButtonSpinner from "@/components/header/ButtonSpinner";
 
 const LoginForm = () => {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const formSubmitHandler = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -19,12 +20,17 @@ const LoginForm = () => {
     }
 
     try {
+      setLoading(true);
       await axios.post(`${DOMAIN}/api/users/login`, { email, password });
       router.replace("/");
       router.refresh();
-    } catch (error: any) {
-      toast.error(error?.response.data.message);
-      console.log(error);
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error("An unexpected error occurred");
+      }
+      setLoading(false);
     }
   };
   return (
@@ -45,10 +51,11 @@ const LoginForm = () => {
           onChange={(e) => setPassword(e.target.value)}
         />
         <button
+          disabled={loading}
           className="text-2xl text-white bg-blue-700 hover:bg-blue-900 p-2 rounded-lg"
           type="submit"
         >
-          Login
+          {loading ? <ButtonSpinner /> : "login"}
         </button>
       </form>
     </div>

@@ -7,7 +7,7 @@ interface PaginationProps {
 }
 
 const Pagination = ({ pages, pageNumber, route }: PaginationProps) => {
-  let pagesArray: number[] = [];
+  const pagesArray: number[] = [];
   const prev = pageNumber - 1;
   const next = pageNumber + 1;
 
