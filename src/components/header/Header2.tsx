@@ -7,11 +7,13 @@ import { verifyTokenPages } from "@/utils/verifyToken";
 import LogoutButton from "./LogoutButton";
 const Header2 = async () => {
   const token = (await cookies()).get("token")?.value;
+
   const user = verifyTokenPages(token || "");
+
   return (
-    <header className={module.header}>
+    <header className="bg-white shadow-md p-4 flex justify-between items-center">
       <Navbar />
-      <div className={module.right}>
+      <div className="flex items-center space-x-4">
         {user ? (
           <>
             <strong className="text-blue-800 md:text-xl capitalize">
