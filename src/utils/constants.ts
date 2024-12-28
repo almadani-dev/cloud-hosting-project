@@ -11,4 +11,5 @@ export const navButtons = [
 ];
 
 export const ItemPerPage = 6;
+export const ARTICLE_PER_PAGE = 5;
 export const DOMAIN = "http://localhost:3000";

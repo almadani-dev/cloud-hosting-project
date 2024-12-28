@@ -1,48 +1,71 @@
 "use client";
 import Link from "next/link";
-import React, { useState } from "react";
-import { navItems } from "@/utils/constants";
+import styles from "./header.module.css";
 import { GrTechnology } from "react-icons/gr";
-import module from "./header.module.css";
+import { useState } from "react";
 import { AiOutlineMenu } from "react-icons/ai";
 import { IoMdClose } from "react-icons/io";
 
-const Navbar = () => {
+interface NavbarProps {
+  isAdmin: boolean;
+}
+
+const Navbar = ({ isAdmin }: NavbarProps) => {
   const [toggle, setToggle] = useState(false);
+
   return (
-    <nav className={module.navbar}>
-      <Link href="/" className={module.logo}>
-        Cloud
-        <GrTechnology />
-        Hosting
-      </Link>
-
-      <div className={module.menu}>
-        {toggle ? (
-          <IoMdClose onClick={() => setToggle((prev) => !prev)} />
-        ) : (
-          <AiOutlineMenu onClick={() => setToggle((prev) => !prev)} />
-        )}
+    <nav className={styles.navbar}>
+      <div>
+        <Link href="/" className={styles.logo}>
+          CLOUD
+          <GrTechnology />
+          HOSTING
+        </Link>
+        <div className={styles.menu}>
+          {toggle ? (
+            <IoMdClose onClick={() => setToggle((prev) => !prev)} />
+          ) : (
+            <AiOutlineMenu onClick={() => setToggle((prev) => !prev)} />
+          )}
+        </div>
       </div>
-
       <div
-        className={module.navLinksWrapper}
+        className={styles.navLinksWrapper}
         style={{
-          clipPath:
-            (toggle && "polygon(0 0 , 100% 0 , 100% 100% , 0 100%") || "",
+          clipPath: (toggle && "polygon(0 0, 100% 0, 100% 100%, 0 100%)") || "",
         }}
       >
-        <ul className={module.navLinks}>
-          {navItems.map((item, index) => (
+        <ul className={styles.navLinks}>
+          <Link
+            onClick={() => setToggle(false)}
+            className={styles.navLink}
+            href="/"
+          >
+            Home
+          </Link>
+          <Link
+            onClick={() => setToggle(false)}
+            className={styles.navLink}
+            href="/articles?page=1"
+          >
+            Articles
+          </Link>
+          <Link
+            onClick={() => setToggle(false)}
+            className={styles.navLink}
+            href="/about"
+          >
+            About
+          </Link>
+          {isAdmin && (
             <Link
               onClick={() => setToggle(false)}
-              href={item.href}
-              key={index}
-              className={module.navLink}
+              className={styles.navLink}
+              href="/admin"
             >
-              {item.name}
+              Admin Dashboard
             </Link>
-          ))}
+          )}
         </ul>
       </div>
     </nav>
