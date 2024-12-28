@@ -6,7 +6,7 @@ export async function getArticles(
   page: string | undefined
 ): Promise<Article[]> {
   const data = await fetch(`${DOMAIN}/api/articles?page=${page}`, {
-    next: { revalidate: 50 },
+    cache: "no-store",
   });
   if (!data.ok) {
     throw new Error("An error occurred while fetching the data");
@@ -16,7 +16,7 @@ export async function getArticles(
 
 export async function getArticlesCount(): Promise<number> {
   const data = await fetch(`${DOMAIN}/api/articles/count`, {
-    next: { revalidate: 50 },
+    cache: "no-store",
   });
   if (!data.ok) {
     throw new Error("Failed To Fetch Articles Count");
